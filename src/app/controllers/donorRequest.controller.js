@@ -35,5 +35,18 @@ exports.readOne = async (req, res) => {
     })
   }
 }
-exports.update = async (req, res) => {}
+exports.update = async (req, res) => {
+  try {
+     const id = req.params.id;
+     const result = await donorRequest.findByIdAndUpdate(id, req.body);
+     result
+       ? res.send("Data has been updated successfully.")
+       : res.status(404).send({ message: "Data not found." });
+  } catch (err) {
+     res.status(409).send({
+        message: err.message || "Error occured when updating data.",
+        });
+  }
+}
+
 exports.delete = async (req, res) => {}
