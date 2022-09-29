@@ -7,6 +7,6 @@ router.post("/", donorRequest.create)
 router.get("/", donorRequest.readAll)
 router.get("/:id", donorRequest.readOne)
 // router.patch("/:id", donorRequest.update);
-// router.delete("/:id", donorRequest.delete);
+router.delete("/:id", donorRequest.delete)
 
 module.exports = router
