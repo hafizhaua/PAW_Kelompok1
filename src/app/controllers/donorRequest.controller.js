@@ -1,7 +1,7 @@
-const db = require("../models/index")
-const donorRequest = db.donorRequests
+const db = require("../models/index");
+const donorRequest = db.donorRequests;
 
-exports.create = async(req, res) => {
+exports.create = async (req, res) => {
     const donorRequestPost = new donorRequest({
         recipient: req.body.recipient,
         bloodType: req.body.bloodType,
@@ -17,65 +17,80 @@ exports.create = async(req, res) => {
         const donorRequest = await donorRequestPost.save();
         res.send(donorRequest);
     } catch (err) {
-        res.status(409).send({ message: err.message || "Error occured when adding data." });
+        res.status(409).send({
+            message: err.message || "Error occured when adding data.",
+        });
     }
 };
 
-exports.readAll = async(req, res) => {
+exports.readAll = async (req, res) => {
     try {
-        const result = await donorRequest.find()
-        const filters = req.query
+        const result = await donorRequest.find();
+        const filters = req.query;
 
-        const filteredResult = result.filter((donorReq) => {
-            let isValid = true
+        let filteredResult = result.filter((donorReq) => {
+            let isValid = true;
             for (key in filters) {
-                isValid = isValid && donorReq[key] == filters[key]
+                if (donorReq[key]) {
+                    isValid = isValid && donorReq[key] == filters[key];
+                }
             }
-            return isValid
-        })
+            return isValid;
+        });
 
-        res.send(filteredResult)
+        if (filters.sort == "newest") {
+            filteredResult = filteredResult.sort(
+                (reqA, reqB) => Number(reqB.date) - Number(reqA.date)
+            );
+        } else if (filters.sort == "oldest") {
+            filteredResult = filteredResult.sort(
+                (reqA, reqB) => Number(reqA.date) - Number(reqB.date)
+            );
+        }
+
+        res.send(filteredResult);
     } catch (err) {
         res.status(500).send({
             message: err.message || "Error occured on retrieving the requests.",
-        })
+        });
     }
-}
+};
 
-exports.readOne = async(req, res) => {
+exports.readOne = async (req, res) => {
     try {
-        const id = req.params.id
-        const result = await donorRequest.findById(id)
-        res.send(result)
+        const id = req.params.id;
+        const result = await donorRequest.findById(id);
+        res.send(result);
     } catch (err) {
         res.status(409).send({
-            message: err.message || "Error occured when retrieving the request.",
-        })
+            message:
+                err.message || "Error occured when retrieving the request.",
+        });
     }
-}
+};
 
 exports.update = async (req, res) => {
-  try {
-     const id = req.params.id;
-     const result = await donorRequest.findByIdAndUpdate(id, req.body);
-     result
-       ? res.send("Data has been updated successfully.")
-       : res.status(404).send({ message: "Data not found." });
-  } catch (err) {
-     res.status(409).send({
-        message: err.message || "Error occured when updating data.",
-        });
-  }
-}
-
-exports.delete = async(req, res) => {
     try {
-        const id = req.params.id
+        const id = req.params.id;
+        req.body.date = Date.now();
+        const result = await donorRequest.findByIdAndUpdate(id, req.body);
+        result
+            ? res.send("Data has been updated successfully.")
+            : res.status(404).send({ message: "Data not found." });
+    } catch (err) {
+        res.status(409).send({
+            message: err.message || "Error occured when updating data.",
+        });
+    }
+};
+
+exports.delete = async (req, res) => {
+    try {
+        const id = req.params.id;
         const result = await donorRequest.findByIdAndRemove(id);
         result
-            ?
-            res.send("Data has been deleted successfully.") :
-            res.status(404).send({ message: "Data not found" });
+            ? res.send("Data has been deleted successfully.")
+            : res.status(404).send({ message: "Data not found" });
     } catch (err) {
         res.status(409).send({
             message: err.message || "Error occured when deleting the data.",
