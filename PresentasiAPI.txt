@@ -1,0 +1,4 @@
+PAW Kelompok 1 - Blood Donation API
+
+URL Video :bit.ly/VideoPresentasiAPI_Kelompok1
+URL Slide :bit.ly/SlidePresentasiAPI_Kelompok1
