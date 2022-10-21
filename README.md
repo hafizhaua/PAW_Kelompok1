@@ -116,7 +116,7 @@ DELETE /donorRequest/:id
 
 ## Documentation
 
-- [Project Presentation Video - Backend & API](bit.ly/VideoPresentasiAPI_Kelompok1)
-- [Project Presentation Slide - Backend & API](bit.ly/SlidePresentasiAPI_Kelompok1)
+- [Project Presentation Video - Backend & API](https://bit.ly/VideoPresentasiAPI_Kelompok1)
+- [Project Presentation Slide - Backend & API](https://bit.ly/SlidePresentasiAPI_Kelompok1)
 
 
