@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react"
-import axios from "axios"
-import { Link } from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const UserList = () => {
-  const [users, setUser] = useState([])
+  const [users, setUser] = useState([]);
 
   useEffect(() => {
-    getUsers()
-  }, [])
+    getUsers();
+  }, []);
 
   const getUsers = async () => {
-    const response = await axios.get("http://localhost:8000/donorRequest")
-    setUser(response.data)
-  }
+    const response = await axios.get("http://localhost:8000/donorRequest");
+    setUser(response.data);
+  };
 
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/donorRequest/${id}`)
-      getUsers()
+      await axios.delete(`http://localhost:8000/donorRequest/${id}`);
+      getUsers();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div className="columns mt-5 is-centered">
@@ -29,7 +29,7 @@ const UserList = () => {
         <Link to={`add`} className="button is-danger">
           Add New
         </Link>
-        <table className="table is-striped is-fullwidth">
+        {/* <table className="table is-striped is-fullwidth">
           <thead>
             <tr>
               <th>No</th>
@@ -57,20 +57,64 @@ const UserList = () => {
                 <td>{user.cpName}</td>
                 <td>{user.cpPhoneNum}</td>
                 <td>
-                  <Link to={`edit/${user._id}`} className="button is-small is-danger mr-2">
+                  <Link
+                    to={`edit/${user._id}`}
+                    className="button is-small is-success mr-2"
+                  >
                     Edit
                   </Link>
-                  <button onClick={() => deleteUser(user._id)} className="button is-small is-danger">
+                  <button
+                    onClick={() => deleteUser(user._id)}
+                    className="button is-small is-danger"
+                  >
                     Delete
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
+        <div class="columns">
+          {users.map((user, index) => (
+            <div class="column is-4">
+              <div class="card">
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                      <p class="title is-4">{user.recipient}</p>
+                    </div>
+                  </div>
+
+                  <div class="content">
+                    <p>{user.hospital}</p>
+                    <p>{user.city}</p>
+                    <p>Blood Type : {user.bloodType}</p>
+                    <p>Bag QTY : {user.bagQuantity}</p>
+                    <p>Donor Type : {user.donorType}</p>
+                    <p>CP Name : {user.cpName}</p>
+                    <p>{user.cpPhoneNum}</p>
+                  </div>
+
+                  <Link
+                    to={`edit/${user._id}`}
+                    className="button is-small is-success mr-2"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => deleteUser(user._id)}
+                    className="button is-small is-danger"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserList
+export default UserList;
