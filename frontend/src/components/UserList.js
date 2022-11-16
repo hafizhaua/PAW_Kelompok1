@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import { Link } from "react-router-dom"
 
 const UserList = () => {
-  const [users, setUser] = useState([]);
+  const [users, setUser] = useState([])
 
   useEffect(() => {
-    getUsers();
-  }, []);
+    getUsers()
+  }, [])
 
   const getUsers = async () => {
-    const response = await axios.get("http://localhost:8000/donorRequest");
-    setUser(response.data);
-  };
+    const response = await axios.get("http://localhost:8000/donorRequest")
+    setUser(response.data)
+  }
 
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/donorRequest/${id}`);
-      getUsers();
+      await axios.delete(`http://localhost:8000/donorRequest/${id}`)
+      getUsers()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <div className="columns mt-5 is-centered">
@@ -74,7 +74,7 @@ const UserList = () => {
             ))}
           </tbody>
         </table> */}
-        <div class="columns">
+        <div class="columns is-multiline">
           {users.map((user, index) => (
             <div class="column is-4">
               <div class="card">
@@ -95,16 +95,10 @@ const UserList = () => {
                     <p>{user.cpPhoneNum}</p>
                   </div>
 
-                  <Link
-                    to={`edit/${user._id}`}
-                    className="button is-small is-success mr-2"
-                  >
+                  <Link to={`edit/${user._id}`} className="button is-small is-success mr-2">
                     Edit
                   </Link>
-                  <button
-                    onClick={() => deleteUser(user._id)}
-                    className="button is-small is-danger"
-                  >
+                  <button onClick={() => deleteUser(user._id)} className="button is-small is-danger">
                     Delete
                   </button>
                 </div>
@@ -114,7 +108,7 @@ const UserList = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserList;
+export default UserList
