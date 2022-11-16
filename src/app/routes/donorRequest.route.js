@@ -1,12 +1,21 @@
-const express = require("express");
+const { Router } = require("express");
+const { authJwt, donorReqPerm } = require("../middlewares");
 const donorRequest = require("../controllers/donorRequest.controller");
 
-const router = express.Router();
+const router = Router();
 
-router.post("/", donorRequest.create);
+router.post("/", [authJwt.verifyToken], donorRequest.create);
 router.get("/", donorRequest.readAll);
 router.get("/:id", donorRequest.readOne);
-router.patch("/:id", donorRequest.update);
-router.delete("/:id", donorRequest.delete);
+router.patch(
+    "/:id",
+    [authJwt.verifyToken, donorReqPerm.canUpdateDelete],
+    donorRequest.update
+);
+router.delete(
+    "/:id",
+    [authJwt.verifyToken, donorReqPerm.canUpdateDelete],
+    donorRequest.delete
+);
 
 module.exports = router;

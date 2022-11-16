@@ -1,5 +1,5 @@
 const db = require("../models/index");
-const donorRequest = db.donorRequests;
+const donorRequest = db.donorRequest;
 
 exports.create = async (req, res) => {
     const donorRequestPost = new donorRequest({
@@ -11,6 +11,7 @@ exports.create = async (req, res) => {
         hospital: req.body.hospital,
         cpName: req.body.cpName,
         cpPhoneNum: req.body.cpPhoneNum,
+        userId: req.userId,
     });
 
     try {

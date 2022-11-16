@@ -37,6 +37,11 @@ const donorRequestSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    userId: {
+        type: String,
+        required: true,
+        default: 1,
+    },
 });
 
 module.exports = mongoose.model("DonorRequest", donorRequestSchema);
