@@ -30,9 +30,7 @@ const UserList = () => {
 
     const deleteUser = async (id) => {
         try {
-            await axios.delete(
-                `http://localhost:8000/donorRequest/?sort=newest`
-            );
+            await axios.delete(`http://localhost:8000/donorRequest/${id}`);
             getUsers();
         } catch (error) {
             console.log(error);
