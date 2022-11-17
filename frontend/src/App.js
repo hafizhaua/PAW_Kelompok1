@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserList from "./components/UserList";
-import AddUser from "./components/AddUser.js";
 import EditUser from "./components/EditUser";
 import DefaultLayout from "./components/DefaultLayout";
 import CreateForm from "./components/CreateForm";
