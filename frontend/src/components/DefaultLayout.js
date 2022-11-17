@@ -16,11 +16,13 @@ const navItems = [
 const DefaultLayout = ({ children }) => (
     <Layout className="layout">
         <Header style={{ display: "flex", alignItems: "center" }}>
-            <img
-                src="bloodio-logo.png"
-                alt="Logo of Bloodio"
-                style={{ height: "100%" }}
-            />
+            <Link to={"/"}>
+                <img
+                    src="bloodio-logo.png"
+                    alt="Logo of Bloodio"
+                    style={{ height: "100%" }}
+                />
+            </Link>
             <Menu
                 theme="dark"
                 mode="horizontal"
@@ -39,16 +41,9 @@ const DefaultLayout = ({ children }) => (
         <Content
             style={{
                 padding: "0 50px",
+                margin: "2rem 0",
             }}
         >
-            <Breadcrumb
-                style={{
-                    margin: "16px 0",
-                }}
-            >
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                <Breadcrumb.Item>List Permohonan Donor Darah</Breadcrumb.Item>
-            </Breadcrumb>
             <div className="site-layout-content">{children}</div>
         </Content>
         <Footer
