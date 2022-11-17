@@ -1,0 +1,27 @@
+.name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.date {
+    color: #9B9B9B;
+    font-size: 0.7rem;
+}
+
+.label {
+    color: #9B9B9B;
+    font-size: 0.8rem;
+    margin-bottom: 0;
+}
+
+.value {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
