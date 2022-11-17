@@ -8,6 +8,7 @@ import {
     Typography,
     Badge,
     message,
+    Popconfirm
 } from "antd";
 import axios from "axios";
 import { EditOutlined, DeleteOutlined, CopyTwoTone } from "@ant-design/icons";
@@ -36,6 +37,16 @@ export default function DonorReqCard({
     [date[0], date[1]] = [date[1], date[0]];
     date = date.join(" ");
 
+    const confirm = (e) => {
+        console.log(e);
+        onDelete(_id)
+        message.success('Data Berhasil Dihapus!');
+      };
+      const cancel = (e) => {
+        console.log(e);
+        message.error('Data Gagal Dihapus!');
+      };
+    
     return (
         <Card style={{ width: 295, marginTop: 10 }}>
             <Row gutter={[0, 12]}>
@@ -122,15 +133,23 @@ export default function DonorReqCard({
                             </Link>
                         </Tooltip>
                         <div style={{ width: 16 }}></div>
+                        <Popconfirm
+                            title="Apakah Anda yakin menghapus data ini?"
+                            onConfirm={confirm}
+                            onCancel={cancel}
+                            okText="Ya"
+                            cancelText="Tidak"
+                        >
+  
                         <Tooltip title="Hapus">
                             <Button
                                 type="secondary"
                                 danger
                                 shape="circle"
-                                onClick={() => onDelete(_id)}
                                 icon={<DeleteOutlined />}
                             />
                         </Tooltip>
+                        </Popconfirm>
                     </div>
                 )}
             </Row>
