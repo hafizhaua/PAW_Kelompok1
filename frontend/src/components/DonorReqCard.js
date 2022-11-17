@@ -8,7 +8,7 @@ import {
     Typography,
     Badge,
     message,
-    Popconfirm
+    Popconfirm,
 } from "antd";
 import axios from "axios";
 import { EditOutlined, DeleteOutlined, CopyTwoTone } from "@ant-design/icons";
@@ -39,14 +39,14 @@ export default function DonorReqCard({
 
     const confirm = (e) => {
         console.log(e);
-        onDelete(_id)
-        message.success('Data Berhasil Dihapus!');
-      };
-      const cancel = (e) => {
+        onDelete(_id);
+        message.success("Data Berhasil Dihapus!");
+    };
+    const cancel = (e) => {
         console.log(e);
-        message.error('Data Gagal Dihapus!');
-      };
-    
+        message.error("Data Gagal Dihapus!");
+    };
+
     return (
         <Card style={{ width: 295, marginTop: 10 }}>
             <Row gutter={[0, 12]}>
@@ -98,12 +98,6 @@ export default function DonorReqCard({
                     </Col>
                     <Col span={24}>
                         <h1 className={(style.value, style.center)}>
-                            {/* <Button
-                                type="link"
-                                href="https://wa.me/+6281234567890"
-                                target="_blank"
-                                className="phone-num"
-                            > */}
                             <Paragraph
                                 className={style.value}
                                 copyable={{ text: "081234567890" }}
@@ -140,15 +134,14 @@ export default function DonorReqCard({
                             okText="Ya"
                             cancelText="Tidak"
                         >
-  
-                        <Tooltip title="Hapus">
-                            <Button
-                                type="secondary"
-                                danger
-                                shape="circle"
-                                icon={<DeleteOutlined />}
-                            />
-                        </Tooltip>
+                            <Tooltip title="Hapus">
+                                <Button
+                                    type="secondary"
+                                    danger
+                                    shape="circle"
+                                    icon={<DeleteOutlined />}
+                                />
+                            </Tooltip>
                         </Popconfirm>
                     </div>
                 )}

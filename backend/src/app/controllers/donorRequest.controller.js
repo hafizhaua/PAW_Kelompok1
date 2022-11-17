@@ -49,6 +49,12 @@ exports.readAll = async (req, res) => {
             );
         }
 
+        if (filters.name !== undefined) {
+            filteredResult = filteredResult.filter((req) =>
+                req.recipient.toLowerCase().includes(filters.name.toLowerCase())
+            );
+        }
+
         res.send(filteredResult);
     } catch (err) {
         res.status(500).send({
