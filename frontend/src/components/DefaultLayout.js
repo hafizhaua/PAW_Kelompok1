@@ -6,12 +6,12 @@ import React from "react";
 
 const { Header, Content, Footer } = Layout;
 
-const navItems = [
-    {
-        label: <Link to={`add`}>Buat Permohonan</Link>,
-        key: "create-donor-request",
-    },
-];
+// const navItems = [
+//     {
+//         label: <Link to={`add`}>Buat Permohonan</Link>,
+//         key: "create-donor-request",
+//     },
+// ];
 
 const DefaultLayout = ({ children }) => (
     <Layout className="layout">
@@ -27,16 +27,18 @@ const DefaultLayout = ({ children }) => (
                 theme="dark"
                 mode="horizontal"
                 defaultSelectedKeys={["2"]}
-                items={navItems}
+                //items={navItems}
                 style={{
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
                 }}
             />
-            <Button type="primary" icon={<UserOutlined />}>
-                Login as Admin
-            </Button>
+            <Link to={`add`}>
+                <Button type="primary" icon={<UserOutlined />}>
+                    Buat Permohonan
+                </Button>
+            </Link>
         </Header>
         <Content
             style={{
