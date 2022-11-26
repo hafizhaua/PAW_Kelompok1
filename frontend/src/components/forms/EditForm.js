@@ -1,18 +1,9 @@
-import {
-    Button,
-    Cascader,
-    Form,
-    Input,
-    InputNumber,
-    Select,
-    notification,
-} from "antd";
+import { Button, Cascader, Form, Input, InputNumber, notification } from "antd";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { lbl } from "./data";
-
-const { Option } = Select;
+import { listGoldar, listKota, listTipeDonor } from "../../data";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const formItemLayout = {
     labelCol: {
@@ -58,6 +49,7 @@ const EditForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [form] = Form.useForm();
+    const { user } = useAuthContext();
 
     useEffect(() => {
         getUserById();
@@ -72,13 +64,24 @@ const EditForm = () => {
 
     const onFinish = async (values) => {
         console.log("Received values of form: ", values);
+        console.log(values.city[0], values.bloodType[0], values.donorType[0]);
         values.cpPhoneNum = "+62" + values.cpPhoneNum;
         values.city = values.city[0];
+        values.bloodType = values.bloodType[0];
+        values.donorType = values.donorType[0];
 
         try {
-            await axios.patch(`http://localhost:8000/donorRequest/${id}`, {
-                ...values,
-            });
+            await axios.patch(
+                `http://localhost:8000/donorRequest/${id}`,
+                {
+                    ...values,
+                },
+                {
+                    headers: {
+                        "x-access-token": `${user.accessToken}`,
+                    },
+                }
+            );
             notification["success"]({
                 message: "Berhasil!",
                 description: "Perubahan data donor darah berhasil disimpan",
@@ -123,7 +126,7 @@ const EditForm = () => {
                 },
                 {
                     name: ["bloodType"],
-                    value: bloodType,
+                    value: [bloodType],
                 },
                 {
                     name: ["bagQuantity"],
@@ -131,11 +134,11 @@ const EditForm = () => {
                 },
                 {
                     name: ["donorType"],
-                    value: donorType,
+                    value: [donorType],
                 },
                 {
                     name: ["city"],
-                    value: city,
+                    value: [city],
                 },
                 {
                     name: ["hospital"],
@@ -177,19 +180,12 @@ const EditForm = () => {
                     },
                 ]}
             >
-                <Select
-                    placeholder="Pilih golongan darah pasien"
-                    defaultValue={bloodType}
-                >
-                    <Option value="A+">A+</Option>
-                    <Option value="A-">A-</Option>
-                    <Option value="B+">B+</Option>
-                    <Option value="B-">B-</Option>
-                    <Option value="O+">O+</Option>
-                    <Option value="O-">O-</Option>
-                    <Option value="AB+">AB+</Option>
-                    <Option value="AB-">AB-</Option>
-                </Select>
+                <Cascader
+                    placeholder="Pilih golongan darah"
+                    showSearch={{ filter }}
+                    onSearch={(value) => console.log(value)}
+                    options={listGoldar}
+                />
             </Form.Item>
 
             <Form.Item
@@ -203,12 +199,7 @@ const EditForm = () => {
                     },
                 ]}
             >
-                <InputNumber
-                    min={1}
-                    max={10}
-                    defaultdefaultValue={1}
-                    defaultValue={bagQuantity}
-                />
+                <InputNumber min={1} max={10} />
             </Form.Item>
 
             <Form.Item
@@ -221,18 +212,12 @@ const EditForm = () => {
                     },
                 ]}
             >
-                <Select
-                    placeholder="Pilih golongan darah pasien"
-                    defaultValue={donorType}
-                >
-                    <Option value="WB">Darah Utuh / Whole Blood (WB)</Option>
-                    <Option value="PRC">
-                        Sel Darah Merah / Packed Red Cells (PRC)
-                    </Option>
-                    <Option value="PC">
-                        Konsentrat Platelet / Platelet Concentrate (PC)
-                    </Option>
-                </Select>
+                <Cascader
+                    placeholder="Pilih tipe transfusi donor"
+                    showSearch={{ filter }}
+                    onSearch={(value) => console.log(value)}
+                    options={listTipeDonor}
+                />
             </Form.Item>
 
             <Form.Item
@@ -249,7 +234,7 @@ const EditForm = () => {
                     placeholder="Pilih kota/kabupaten"
                     showSearch={{ filter }}
                     onSearch={(value) => console.log(value)}
-                    options={lbl}
+                    options={listKota}
                 />
             </Form.Item>
 

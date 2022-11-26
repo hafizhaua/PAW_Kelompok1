@@ -489,15 +489,13 @@ let kotaKabupaten = [
     "Yogyakarta",
 ];
 
-let lbl = [];
+let listKota = [];
 
 kotaKabupaten.map((kota) => {
-    lbl.push({
+    listKota.push({
         label: kota,
         value: kota,
     });
 });
 
-module.exports = {
-    lbl,
-};
+module.exports = listKota;

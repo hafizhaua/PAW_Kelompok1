@@ -8,36 +8,44 @@ import {
     Card,
     Col,
     Row,
-    Select,
     message,
+    Typography,
+    Empty,
 } from "antd";
-import { lbl } from "./data";
 
-import DonorReqCard from "./DonorReqCard";
+import { listGoldar, listKota, listTipeDonor } from "../data/index";
+import DonorReqCard from "../components/card/DonorReqCard";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-const UserList = () => {
+const ReadRequestPage = () => {
     const [users, setUser] = useState([]);
-    const { Option } = Select;
+    const [form] = Form.useForm();
+    const { Title } = Typography;
+    const { user } = useAuthContext();
 
     useEffect(() => {
         getUsers();
     }, []);
 
     const getUsers = async () => {
-        const response = await axios.get("http://localhost:8000/donorRequest");
+        const response = await axios.get(
+            "http://localhost:8000/donorRequest/?sort=newest"
+        );
         setUser(response.data);
     };
 
     const deleteUser = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/donorRequest/${id}`);
+            await axios.delete(`http://localhost:8000/donorRequest/${id}`, {
+                headers: {
+                    "x-access-token": `${user.accessToken}`,
+                },
+            });
             getUsers();
         } catch (error) {
             console.log(error);
         }
     };
-
-    const [form] = Form.useForm();
 
     const filter = (inputValue, path) =>
         path.some(
@@ -45,6 +53,7 @@ const UserList = () => {
                 option.label.toLowerCase().indexOf(inputValue.toLowerCase()) >
                 -1
         );
+
     const filterRequest = async (values) => {
         let filterParams = "";
         for (const prop in values) {
@@ -62,22 +71,34 @@ const UserList = () => {
             const response = await axios.get(
                 "http://localhost:8000/donorRequest/?sort=newest" + filterParams
             );
+            setUser([]);
             setUser(response.data);
-            console.log(users);
-            message.info(`Penyaringan berhasil dilakukan`);
+            message.success(`Penyaringan berhasil dilakukan!`);
         } catch (error) {
-            console.log(error);
+            message.error(`Penyaringan gagal dilakukan!`);
         }
     };
 
     return (
-        <div style={{ width: "100%", maxWidth: 900, margin: "0 auto" }}>
+        <>
+            <Title
+                level={3}
+                style={{ textAlign: "center", margin: "1rem" }}
+                data-aos="zoom-out"
+            >
+                Pencarian Kebutuhan Donor Darah
+            </Title>
             <Card
+                data-aos="fade"
+                data-aos-delay={200}
                 title="Filter Informasi"
                 bordered={false}
                 style={{
                     width: "100%",
                     margin: "0 auto",
+                    borderRadius: 8,
+                    padding: "24px 16px",
+                    filter: "drop-shadow(0px 4px 40px rgba(66, 95, 138, 0.1))",
                 }}
             >
                 <Form layout="vertical" form={form} onFinish={filterRequest}>
@@ -87,41 +108,29 @@ const UserList = () => {
                                 <Input placeholder="Ex: Syahroni Pramana" />
                             </Form.Item>
                             <Form.Item label="Tipe Donor" name="donorType">
-                                <Select placeholder="Pilih tipe transfusi donor darah">
-                                    <Option value="">Semua</Option>
-                                    <Option value="WB">
-                                        Darah Utuh / Whole Blood (WB)
-                                    </Option>
-                                    <Option value="PRC">
-                                        Sel Darah Merah / Packed Red Cells (PRC)
-                                    </Option>
-                                    <Option value="PC">
-                                        Konsentrat Platelet / Platelet
-                                        Concentrate (PC)
-                                    </Option>
-                                </Select>
+                                <Cascader
+                                    placeholder="Pilih tipe transfusi donor"
+                                    showSearch={{ filter }}
+                                    onSearch={(value) => console.log(value)}
+                                    options={listTipeDonor}
+                                />
                             </Form.Item>
                         </Col>
                         <Col className="gutter-row" xs={24} md={12}>
                             <Form.Item label="Golongan Darah" name="bloodType">
-                                <Select placeholder="Pilih golongan darah pasien">
-                                    <Option value="">Semua</Option>
-                                    <Option value="A+">A+</Option>
-                                    <Option value="A-">A-</Option>
-                                    <Option value="B+">B+</Option>
-                                    <Option value="B-">B-</Option>
-                                    <Option value="O+">O+</Option>
-                                    <Option value="O-">O-</Option>
-                                    <Option value="AB+">AB+</Option>
-                                    <Option value="AB-">AB-</Option>
-                                </Select>
+                                <Cascader
+                                    placeholder="Pilih golongan darah"
+                                    showSearch={{ filter }}
+                                    onSearch={(value) => console.log(value)}
+                                    options={listGoldar}
+                                />
                             </Form.Item>
                             <Form.Item label="Kota/Kabupaten" name="city">
                                 <Cascader
                                     placeholder="Pilih kota/kabupaten"
                                     showSearch={{ filter }}
                                     onSearch={(value) => console.log(value)}
-                                    options={lbl}
+                                    options={listKota}
                                 />
                             </Form.Item>
                         </Col>
@@ -142,20 +151,33 @@ const UserList = () => {
                 </Form>
             </Card>
             <div
-                className=""
                 style={{
                     display: "flex",
                     flexWrap: "wrap",
                     justifyContent: "center",
+                    // alignItems: "center",
                     gap: 7,
                 }}
             >
+                {users.length == 0 && (
+                    <Empty
+                        style={{ margin: "5rem" }}
+                        description="Data tidak ditemukan"
+                        data-aos="fade-down"
+                    />
+                )}
                 {users.map((user, index) => (
-                    <DonorReqCard {...user} onDelete={deleteUser} />
+                    <div
+                        data-aos="fade-up"
+                        data-aos-delay={(index % 3) * 250}
+                        // data-aos-anchor-placement="center-bottom"
+                    >
+                        <DonorReqCard {...user} onDelete={deleteUser} />
+                    </div>
                 ))}
             </div>
-        </div>
+        </>
     );
 };
 
-export default UserList;
+export default ReadRequestPage;

@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { lbl } from "./data";
+import { listGoldar, listKota, listTipeDonor } from "../../data";
 
 const { Option } = Select;
 
@@ -62,6 +62,8 @@ const CreateForm = () => {
         console.log("Received values of form: ", values);
         values.cpPhoneNum = "+62" + values.cpPhoneNum;
         values.city = values.city[0];
+        values.bloodType = values.bloodType[0];
+        values.donorType = values.donorType[0];
         try {
             await axios.post("http://localhost:8000/donorRequest", {
                 ...values,
@@ -114,16 +116,12 @@ const CreateForm = () => {
                 ]}
                 hasFeedback
             >
-                <Select placeholder="Pilih golongan darah pasien">
-                    <Option value="A+">A+</Option>
-                    <Option value="A-">A-</Option>
-                    <Option value="B+">B+</Option>
-                    <Option value="B-">B-</Option>
-                    <Option value="O+">O+</Option>
-                    <Option value="O-">O-</Option>
-                    <Option value="AB+">AB+</Option>
-                    <Option value="AB-">AB-</Option>
-                </Select>
+                <Cascader
+                    placeholder="Pilih golongan darah"
+                    showSearch={{ filter }}
+                    onSearch={(value) => console.log(value)}
+                    options={listGoldar}
+                />
             </Form.Item>
 
             <Form.Item
@@ -137,7 +135,7 @@ const CreateForm = () => {
                     },
                 ]}
             >
-                <InputNumber min={1} max={10} defaultValue={1} />
+                <InputNumber min={1} max={10} />
             </Form.Item>
 
             <Form.Item
@@ -151,15 +149,12 @@ const CreateForm = () => {
                 ]}
                 hasFeedback
             >
-                <Select placeholder="Pilih golongan darah pasien">
-                    <Option value="WB">Darah Utuh / Whole Blood (WB)</Option>
-                    <Option value="PRC">
-                        Sel Darah Merah / Packed Red Cells (PRC)
-                    </Option>
-                    <Option value="PC">
-                        Konsentrat Platelet / Platelet Concentrate (PC)
-                    </Option>
-                </Select>
+                <Cascader
+                    placeholder="Pilih tipe transfusi donor"
+                    showSearch={{ filter }}
+                    onSearch={(value) => console.log(value)}
+                    options={listTipeDonor}
+                />
             </Form.Item>
 
             <Form.Item
@@ -176,7 +171,7 @@ const CreateForm = () => {
                     placeholder="Pilih kota/kabupaten"
                     showSearch={{ filter }}
                     onSearch={(value) => console.log(value)}
-                    options={lbl}
+                    options={listKota}
                 />
             </Form.Item>
 

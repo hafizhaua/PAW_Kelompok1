@@ -14,6 +14,7 @@ import axios from "axios";
 import { EditOutlined, DeleteOutlined, CopyTwoTone } from "@ant-design/icons";
 import style from "./DonorReqCard.module.css";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 export default function DonorReqCard({
     _id,
@@ -28,7 +29,7 @@ export default function DonorReqCard({
     cpPhoneNum = "081234567890",
     onDelete,
 }) {
-    const [isAdmin, setIsAdmin] = useState(true);
+    const { user } = useAuthContext();
     const { Paragraph } = Typography;
 
     date = new Date(date).toDateString();
@@ -40,15 +41,26 @@ export default function DonorReqCard({
     const confirm = (e) => {
         console.log(e);
         onDelete(_id);
-        message.success("Data Berhasil Dihapus!");
+        message.success("Data berhasil dihapus!");
     };
     const cancel = (e) => {
         console.log(e);
-        message.error("Data Gagal Dihapus!");
+        message.error("Data gagal dihapus!");
     };
 
     return (
-        <Card style={{ width: 295, marginTop: 10 }}>
+        <Card
+            style={{
+                width: 295,
+                marginTop: 10,
+                borderRadius: 8,
+                padding: "24px 16px",
+                backgroundImage:
+                    "linear-gradient(to right top, #F1F5FA, white)",
+                filter: "drop-shadow(0px 4px 40px rgba(66, 95, 138, 0.1))",
+            }}
+            bordered={false}
+        >
             <Row gutter={[0, 12]}>
                 <Row style={{ width: "100%" }} gutter={[0, 4]}>
                     <Col span={24}>
@@ -108,25 +120,28 @@ export default function DonorReqCard({
                     </Col>
                 </Row>
 
-                {isAdmin && (
+                {user?.roles.includes("ROLE_ADMIN") && (
                     <div
                         className=""
                         style={{
                             display: "flex",
-                            justifyContent: "center",
+                            justifyContent: "space-between",
                             width: "100%",
                         }}
                     >
-                        <Tooltip title="Edit">
-                            <Link to={`edit/${_id}`}>
-                                <Button
-                                    type="primary"
-                                    shape="circle"
-                                    icon={<EditOutlined />}
-                                />
-                            </Link>
-                        </Tooltip>
-                        <div style={{ width: 16 }}></div>
+                        <Link to={`edit/${_id}`}>
+                            <Button
+                                type="primary"
+                                style={{
+                                    width: 100,
+                                    fontSize: "0.8rem",
+                                    borderRadius: 3,
+                                }}
+                                icon={<EditOutlined />}
+                            >
+                                Edit
+                            </Button>
+                        </Link>
                         <Popconfirm
                             title="Apakah Anda yakin menghapus data ini?"
                             onConfirm={confirm}
@@ -134,14 +149,18 @@ export default function DonorReqCard({
                             okText="Ya"
                             cancelText="Tidak"
                         >
-                            <Tooltip title="Hapus">
-                                <Button
-                                    type="secondary"
-                                    danger
-                                    shape="circle"
-                                    icon={<DeleteOutlined />}
-                                />
-                            </Tooltip>
+                            <Button
+                                // danger
+                                // type=""
+                                icon={<DeleteOutlined />}
+                                style={{
+                                    width: 100,
+                                    fontSize: "0.8rem",
+                                    borderRadius: 3,
+                                }}
+                            >
+                                Hapus
+                            </Button>
                         </Popconfirm>
                     </div>
                 )}

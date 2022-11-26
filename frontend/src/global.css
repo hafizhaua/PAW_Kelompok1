@@ -3,3 +3,11 @@
 * {
     font-family: "Inter";
 }
+
+.ant-input-prefix {
+    margin-right: 8px;
+}
+
+.ant-menu-selected, .ant-menu-item-selected {
+    background-color: transparent !important;
+}
