@@ -23,6 +23,7 @@ router.patch(
     "/:id",
     authJwt.verifyToken,
     authJwt.isModerator,
+    authJwt.isNotTheirselves,
     userController.updateRole
 );
 
@@ -30,6 +31,7 @@ router.delete(
     "/:id",
     authJwt.verifyToken,
     authJwt.isModerator,
+    authJwt.isNotTheirselves,
     userController.deleteAccount
 );
 

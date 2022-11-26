@@ -87,10 +87,21 @@ isModerator = (req, res, next) => {
     });
 };
 
+const isNotTheirselves = (req, res, next) => {
+    if (req.params.id !== req.userId) {
+        next();
+    } else {
+        res.status(403).send({
+            message: "Can be accessed by other account",
+        });
+    }
+};
+
 const authJwt = {
     verifyToken,
     isAdmin,
     isModerator,
+    isNotTheirselves,
 };
 
 module.exports = authJwt;
