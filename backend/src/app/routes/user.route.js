@@ -12,21 +12,25 @@ router.use(function (req, res, next) {
     next();
 });
 
-router.get("/test/all", userController.allAccess);
-
-router.get("/test/user", [authJwt.verifyToken], userController.userBoard);
-
 router.get(
-    "/test/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    userController.moderatorBoard
+    "/",
+    authJwt.verifyToken,
+    authJwt.isModerator,
+    userController.readAll
 );
 
-router.get(
-    "/test/admin",
+router.patch(
+    "/:id",
     authJwt.verifyToken,
-    authJwt.isAdmin,
-    userController.adminBoard
+    authJwt.isModerator,
+    userController.updateRole
+);
+
+router.delete(
+    "/:id",
+    authJwt.verifyToken,
+    authJwt.isModerator,
+    userController.deleteAccount
 );
 
 module.exports = router;
