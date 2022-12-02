@@ -12,6 +12,7 @@ import {
     Form,
     Checkbox,
     notification,
+    Skeleton,
 } from "antd";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -24,22 +25,25 @@ export default function AdminPage() {
     const [accounts, setAccounts] = useState([]);
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingData, setIsLoadingData] = useState(false);
     const { user } = useAuthContext();
     const CheckboxGroup = Checkbox.Group;
 
     const handleConfirm = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/user/${id}`, {
-                headers: {
-                    "x-access-token": `${user.accessToken}`,
-                },
-            });
+            await axios.delete(
+                `https://bloodio-api.vercel.app/api/user/${id}`,
+                {
+                    headers: {
+                        "x-access-token": `${user.accessToken}`,
+                    },
+                }
+            );
 
             message.success("Data berhasil dihapus!");
             getAccounts();
         } catch (error) {
             message.error("Data gagal dihapus.");
-            console.log(error);
         }
     };
 
@@ -150,12 +154,17 @@ export default function AdminPage() {
     ];
 
     const getAccounts = async (req, res) => {
-        const response = await axios.get("http://localhost:8000/user/", {
-            headers: {
-                "x-access-token": `${user.accessToken}`,
-            },
-        });
+        setIsLoadingData(true);
+        const response = await axios.get(
+            "https://bloodio-api.vercel.app/api/user/",
+            {
+                headers: {
+                    "x-access-token": `${user.accessToken}`,
+                },
+            }
+        );
 
+        setIsLoadingData(false);
         // let filteredAcc = response.data.filter((rsp) => rsp.id !== user.id);
         setAccounts(response.data);
     };
@@ -186,7 +195,7 @@ export default function AdminPage() {
 
         try {
             await axios.patch(
-                `http://localhost:8000/user/${focusedAcc.id}`,
+                `https://bloodio-api.vercel.app/api/user/${focusedAcc.id}`,
                 {
                     roles: checkedList,
                 },
@@ -208,7 +217,6 @@ export default function AdminPage() {
                 message: "Gagal!",
                 description: "Perubahan role akun gagal disimpan",
             });
-            console.log(error);
         }
         setIsLoading(false);
         setIsModalOpen(false);
@@ -279,7 +287,10 @@ export default function AdminPage() {
                     filter: "drop-shadow(0px 4px 40px rgba(66, 95, 138, 0.1))",
                 }}
             >
-                <Table columns={columns} dataSource={data} />
+                {isLoadingData && <Skeleton active />}
+                {!isLoadingData && (
+                    <Table columns={columns} dataSource={data} />
+                )}
             </Card>
         </>
     );

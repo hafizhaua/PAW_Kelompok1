@@ -13,7 +13,7 @@ export const useLogin = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:8000/auth/signin",
+                "https://bloodio-api.vercel.app/api/auth/signin",
                 {
                     username,
                     password,
@@ -21,8 +21,6 @@ export const useLogin = () => {
             );
 
             const json = await response.data;
-
-            console.log(json);
 
             localStorage.setItem("user", JSON.stringify(json));
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Typography, Button, Alert, Form, Input } from "antd";
+import { Card, Typography, Button, Alert, Form, Input, message } from "antd";
 import { Link } from "react-router-dom";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 import { useSignup } from "../hooks/useSignup";
@@ -13,7 +13,7 @@ export default function SignupPage() {
     };
 
     const onFinishFailed = (errorInfo) => {
-        console.log("Failed:", errorInfo);
+        message.error("Gagal mendaftar");
     };
 
     const formItemLayout = {

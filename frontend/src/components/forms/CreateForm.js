@@ -50,14 +50,13 @@ const CreateForm = () => {
         );
 
     const onFinish = async (values) => {
-        console.log("Received values of form: ", values);
         values.cpPhoneNum = "+62" + values.cpPhoneNum;
         values.city = values.city[0];
         values.bloodType = values.bloodType[0];
         values.donorType = values.donorType[0];
         try {
             await axios.post(
-                "http://localhost:8000/donorRequest",
+                "https://bloodio-api.vercel.app/api/donorRequest",
                 {
                     ...values,
                 },
@@ -72,9 +71,8 @@ const CreateForm = () => {
                 message: "Sukses",
                 description: "Permohonan donor darah berhasil disimpan",
             });
-            navigate("/");
+            navigate("/search");
         } catch (error) {
-            console.log(error);
             notification["error"]({
                 message: "Galat",
                 description: "Permohonan donor darah tidak berhasil disimpan",
@@ -118,7 +116,6 @@ const CreateForm = () => {
                 <Cascader
                     placeholder="Pilih golongan darah"
                     showSearch={{ filter }}
-                    onSearch={(value) => console.log(value)}
                     options={listGoldar}
                 />
             </Form.Item>
@@ -151,7 +148,6 @@ const CreateForm = () => {
                 <Cascader
                     placeholder="Pilih tipe transfusi donor"
                     showSearch={{ filter }}
-                    onSearch={(value) => console.log(value)}
                     options={listTipeDonor}
                 />
             </Form.Item>
@@ -169,7 +165,6 @@ const CreateForm = () => {
                 <Cascader
                     placeholder="Pilih kota/kabupaten"
                     showSearch={{ filter }}
-                    onSearch={(value) => console.log(value)}
                     options={listKota}
                 />
             </Form.Item>
@@ -226,7 +221,7 @@ const CreateForm = () => {
             </Form.Item>
 
             <Form.Item {...tailFormItemLayout}>
-                <Link to={"/"}>
+                <Link to={"/search"}>
                     <Button type="secondary">Batal</Button>
                 </Link>
             </Form.Item>

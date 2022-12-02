@@ -33,7 +33,7 @@ const ReadRequestPage = () => {
     const getUsers = async () => {
         setIsLoading(true);
         const response = await axios.get(
-            "http://localhost:8000/donorRequest/?sort=newest"
+            "https://bloodio-api.vercel.app/api/donorRequest/?sort=newest"
         );
         setUser(response.data);
         setIsLoading(false);
@@ -41,14 +41,18 @@ const ReadRequestPage = () => {
 
     const deleteUser = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/donorRequest/${id}`, {
-                headers: {
-                    "x-access-token": `${user.accessToken}`,
-                },
-            });
+            await axios.delete(
+                `https://bloodio-api.vercel.app/api/donorRequest/${id}`,
+                {
+                    headers: {
+                        "x-access-token": `${user.accessToken}`,
+                    },
+                }
+            );
             getUsers();
+            message.success("Data berhasil dihapus!");
         } catch (error) {
-            console.log(error);
+            message.error("Data gagal dihapus!");
         }
     };
 
@@ -63,21 +67,17 @@ const ReadRequestPage = () => {
         let filterParams = "";
         for (const prop in values) {
             if (values[prop] != undefined && values[prop] != "") {
-                console.log(prop, values[prop]);
                 filterParams += `&${prop}=` + encodeURIComponent(values[prop]);
             }
         }
-
-        console.log(
-            "http://localhost:8000/donorRequest/?sort=newest" + filterParams
-        );
 
         try {
             setUser([]);
             setIsSearching(true);
             setIsLoading(true);
             const response = await axios.get(
-                "http://localhost:8000/donorRequest/?sort=newest" + filterParams
+                "https://bloodio-api.vercel.app/api/donorRequest/?sort=newest" +
+                    filterParams
             );
             setUser(response.data);
             setIsSearching(false);
@@ -120,7 +120,6 @@ const ReadRequestPage = () => {
                                 <Cascader
                                     placeholder="Pilih tipe transfusi donor"
                                     showSearch={{ filter }}
-                                    onSearch={(value) => console.log(value)}
                                     options={listTipeDonor}
                                 />
                             </Form.Item>
@@ -130,7 +129,6 @@ const ReadRequestPage = () => {
                                 <Cascader
                                     placeholder="Pilih golongan darah"
                                     showSearch={{ filter }}
-                                    onSearch={(value) => console.log(value)}
                                     options={listGoldar}
                                 />
                             </Form.Item>
@@ -138,7 +136,6 @@ const ReadRequestPage = () => {
                                 <Cascader
                                     placeholder="Pilih kota/kabupaten"
                                     showSearch={{ filter }}
-                                    onSearch={(value) => console.log(value)}
                                     options={listKota}
                                 />
                             </Form.Item>

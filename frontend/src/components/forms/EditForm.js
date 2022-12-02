@@ -63,8 +63,6 @@ const EditForm = () => {
         );
 
     const onFinish = async (values) => {
-        console.log("Received values of form: ", values);
-        console.log(values.city[0], values.bloodType[0], values.donorType[0]);
         values.cpPhoneNum = "+62" + values.cpPhoneNum;
         values.city = values.city[0];
         values.bloodType = values.bloodType[0];
@@ -72,7 +70,7 @@ const EditForm = () => {
 
         try {
             await axios.patch(
-                `http://localhost:8000/donorRequest/${id}`,
+                `https://bloodio-api.vercel.app/api/donorRequest/${id}`,
                 {
                     ...values,
                 },
@@ -86,21 +84,19 @@ const EditForm = () => {
                 message: "Berhasil!",
                 description: "Perubahan data donor darah berhasil disimpan",
             });
-            navigate("/");
+            navigate("/search");
         } catch (error) {
             notification["error"]({
                 message: "Gagal!",
                 description: "Perubahan data donor darah gagal disimpan",
             });
-            console.log(error);
         }
     };
 
     const getUserById = async () => {
         const response = await axios.get(
-            `http://localhost:8000/donorRequest/${id}`
+            `https://bloodio-api.vercel.app/api/donorRequest/${id}`
         );
-        console.log(response.data);
         await setRecipient(response.data.recipient);
         await setBloodType(response.data.bloodType);
         await setBagQuantity(response.data.bagQuantity);
@@ -183,7 +179,6 @@ const EditForm = () => {
                 <Cascader
                     placeholder="Pilih golongan darah"
                     showSearch={{ filter }}
-                    onSearch={(value) => console.log(value)}
                     options={listGoldar}
                 />
             </Form.Item>
@@ -215,7 +210,6 @@ const EditForm = () => {
                 <Cascader
                     placeholder="Pilih tipe transfusi donor"
                     showSearch={{ filter }}
-                    onSearch={(value) => console.log(value)}
                     options={listTipeDonor}
                 />
             </Form.Item>
@@ -233,7 +227,6 @@ const EditForm = () => {
                 <Cascader
                     placeholder="Pilih kota/kabupaten"
                     showSearch={{ filter }}
-                    onSearch={(value) => console.log(value)}
                     options={listKota}
                 />
             </Form.Item>
@@ -297,7 +290,7 @@ const EditForm = () => {
             </Form.Item>
 
             <Form.Item {...tailFormItemLayout}>
-                <Link to={"/"}>
+                <Link to={"/search"}>
                     <Button type="secondary">Batal</Button>
                 </Link>
             </Form.Item>

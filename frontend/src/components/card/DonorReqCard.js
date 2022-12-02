@@ -42,13 +42,7 @@ export default function DonorReqCard({
     date = date.join(" ");
 
     const confirm = (e) => {
-        console.log(e);
         onDelete(_id);
-        message.success("Data berhasil dihapus!");
-    };
-    const cancel = (e) => {
-        console.log(e);
-        message.error("Data gagal dihapus!");
     };
 
     return (
@@ -152,7 +146,7 @@ export default function DonorReqCard({
                             width: "100%",
                         }}
                     >
-                        <Link to={`edit/${_id}`}>
+                        <Link to={`/edit/${_id}`}>
                             <Button
                                 type="primary"
                                 style={{
@@ -168,7 +162,6 @@ export default function DonorReqCard({
                         <Popconfirm
                             title="Apakah Anda yakin menghapus data ini?"
                             onConfirm={confirm}
-                            onCancel={cancel}
                             okText="Ya"
                             cancelText="Tidak"
                         >

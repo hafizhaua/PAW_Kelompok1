@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Typography, Button, Form, Input, Alert } from "antd";
+import { Card, Typography, Button, Form, Input, Alert, message } from "antd";
 import { Link } from "react-router-dom";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
@@ -10,12 +10,11 @@ export default function LoginPage() {
     const { login, isLoading, error } = useLogin();
 
     const onFinish = async (values) => {
-        console.log("Success:", values);
         await login(values.username, values.password);
     };
 
     const onFinishFailed = (errorInfo) => {
-        console.log("Failed:", errorInfo);
+        message.error("Gagal masuk.");
     };
 
     const [form] = Form.useForm();
