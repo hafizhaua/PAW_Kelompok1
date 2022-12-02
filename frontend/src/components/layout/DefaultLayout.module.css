@@ -1,0 +1,23 @@
+.header ul {
+    width: 100%;
+}
+
+@media only screen and (max-width: 1000px) {
+    .header {
+        padding: 0 2rem !important;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .header ul {
+        width: 3rem;
+    }
+
+    .header .greeting {
+        display: none;
+    }
+
+    .footer {
+        padding: 0;
+    }
+}

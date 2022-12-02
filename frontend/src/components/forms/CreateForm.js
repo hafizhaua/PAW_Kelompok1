@@ -1,18 +1,9 @@
-import {
-    Button,
-    Form,
-    Input,
-    InputNumber,
-    Select,
-    notification,
-    Cascader,
-} from "antd";
-import React, { useState } from "react";
+import { Button, Form, Input, InputNumber, notification, Cascader } from "antd";
+import React from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { listGoldar, listKota, listTipeDonor } from "../../data";
-
-const { Option } = Select;
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const formItemLayout = {
     labelCol: {
@@ -48,8 +39,8 @@ const tailFormItemLayout = {
 
 const CreateForm = () => {
     const [form] = Form.useForm();
-
     const navigate = useNavigate();
+    const { user } = useAuthContext();
 
     const filter = (inputValue, path) =>
         path.some(
@@ -65,9 +56,17 @@ const CreateForm = () => {
         values.bloodType = values.bloodType[0];
         values.donorType = values.donorType[0];
         try {
-            await axios.post("http://localhost:8000/donorRequest", {
-                ...values,
-            });
+            await axios.post(
+                "http://localhost:8000/donorRequest",
+                {
+                    ...values,
+                },
+                {
+                    headers: {
+                        "x-access-token": `${user.accessToken}`,
+                    },
+                }
+            );
 
             notification["success"]({
                 message: "Sukses",

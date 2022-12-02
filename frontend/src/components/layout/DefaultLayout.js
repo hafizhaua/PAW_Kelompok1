@@ -6,6 +6,7 @@ import React from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
 
+import style from "./DefaultLayout.module.css";
 const { Header, Content, Footer } = Layout;
 
 export default function DefaultLayout({ children }) {
@@ -14,7 +15,7 @@ export default function DefaultLayout({ children }) {
 
     const navItems = [
         {
-            label: <Link to={`/`}>Cari Kebutuhan Darah</Link>,
+            label: <Link to={`search`}>Cari Kebutuhan Darah</Link>,
             key: "search-donor-request",
         },
         {
@@ -40,16 +41,23 @@ export default function DefaultLayout({ children }) {
                     top: 0,
                     zIndex: 1,
                     width: "100%",
+                    overflow: "hidden",
                 }}
+                className={style.header}
             >
                 <Link to={"/"}>
-                    <div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        <img
+                            src={process.env.PUBLIC_URL + "/bloodio-logo.png"}
+                            alt="logo of bloodio, the web app name"
+                            style={{ height: 30 }}
+                        />
                         <h1
                             style={{
                                 fontWeight: "bold",
                                 fontSize: "1.5rem",
                                 color: "white",
-                                margin: "0 2rem 0 0",
+                                margin: "0 2rem 0 0.8rem",
                             }}
                         >
                             Blood
@@ -63,7 +71,7 @@ export default function DefaultLayout({ children }) {
                     defaultSelectedKeys={["2"]}
                     items={navItems}
                     style={{
-                        width: "100%",
+                        // width: "100%",
                         display: "flex",
                         justifyContent: "start",
                     }}
@@ -86,6 +94,7 @@ export default function DefaultLayout({ children }) {
                             margin: "0 0 0 5rem",
                             width: 200,
                         }}
+                        className={style.greeting}
                     >
                         Halo, {user.username}!
                     </h1>
@@ -110,9 +119,15 @@ export default function DefaultLayout({ children }) {
                     minHeight: "90vh",
                 }}
             >
-                <div className="site-layout-content">{children}</div>
+                <div
+                    className="site-layout-content"
+                    style={{ margin: "0 1rem" }}
+                >
+                    {children}
+                </div>
             </Content>
             <Footer
+                className={style.footer}
                 style={{
                     textAlign: "center",
                 }}

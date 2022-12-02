@@ -11,6 +11,7 @@ import {
     message,
     Typography,
     Empty,
+    Skeleton,
 } from "antd";
 
 import { listGoldar, listKota, listTipeDonor } from "../data/index";
@@ -19,6 +20,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 const ReadRequestPage = () => {
     const [users, setUser] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
     const [form] = Form.useForm();
     const { Title } = Typography;
     const { user } = useAuthContext();
@@ -28,10 +31,12 @@ const ReadRequestPage = () => {
     }, []);
 
     const getUsers = async () => {
+        setIsLoading(true);
         const response = await axios.get(
             "http://localhost:8000/donorRequest/?sort=newest"
         );
         setUser(response.data);
+        setIsLoading(false);
     };
 
     const deleteUser = async (id) => {
@@ -68,11 +73,15 @@ const ReadRequestPage = () => {
         );
 
         try {
+            setUser([]);
+            setIsSearching(true);
+            setIsLoading(true);
             const response = await axios.get(
                 "http://localhost:8000/donorRequest/?sort=newest" + filterParams
             );
-            setUser([]);
             setUser(response.data);
+            setIsSearching(false);
+            setIsLoading(false);
             message.success(`Penyaringan berhasil dilakukan!`);
         } catch (error) {
             message.error(`Penyaringan gagal dilakukan!`);
@@ -141,6 +150,7 @@ const ReadRequestPage = () => {
                                 <Button
                                     htmlType="submit"
                                     type="primary"
+                                    loading={isSearching}
                                     style={{ width: "100%" }}
                                 >
                                     Cari
@@ -159,11 +169,14 @@ const ReadRequestPage = () => {
                     gap: 7,
                 }}
             >
-                {users.length == 0 && (
+                {isLoading && (
+                    <Skeleton active style={{ margin: "2rem 1rem" }} />
+                )}
+                {users.length == 0 && !isLoading && (
                     <Empty
                         style={{ margin: "5rem" }}
                         description="Data tidak ditemukan"
-                        data-aos="fade-down"
+                        data-aos="fade"
                     />
                 )}
                 {users.map((user, index) => (

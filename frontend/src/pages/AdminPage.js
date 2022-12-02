@@ -19,7 +19,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 export default function AdminPage() {
     const { Title } = Typography;
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isPopconfirmOpen, setIsPopConfirmOpen] = useState(false);
     const [focusedAcc, setFocusedAcc] = useState({});
     const [checkedList, setCheckedList] = useState([]);
     const [accounts, setAccounts] = useState([]);
@@ -42,15 +41,6 @@ export default function AdminPage() {
             message.error("Data gagal dihapus.");
             console.log(error);
         }
-    };
-
-    const showPopConfirm = () => {
-        setIsPopConfirmOpen(true);
-    };
-
-    const handleCancel = (e) => {
-        setIsPopConfirmOpen(false);
-        message.error("Data gagal dihapus!");
     };
 
     const handleOkModal = () => {
@@ -144,17 +134,11 @@ export default function AdminPage() {
 
                             <Popconfirm
                                 title="Apakah Anda yakin menghapus data ini?"
-                                open={isPopconfirmOpen}
                                 onConfirm={() => handleConfirm(record.id)}
-                                onCancel={handleCancel}
                                 okText="Ya"
                                 cancelText="Tidak"
                             >
-                                <Button
-                                    danger
-                                    type="primary"
-                                    onClick={showPopConfirm}
-                                >
+                                <Button danger type="primary">
                                     Delete
                                 </Button>
                             </Popconfirm>
@@ -269,6 +253,7 @@ export default function AdminPage() {
                 Pengelolaan Akun Sistem
             </Title>
             <Title
+                data-aos="zoom-in"
                 level={5}
                 style={{
                     textAlign: "center",
@@ -283,6 +268,9 @@ export default function AdminPage() {
                 data-aos-delay={200}
                 title="Tabel List Akun Terdaftar"
                 bordered={false}
+                // pagination={{
+                //     position: ["none", "none"],
+                // }}
                 style={{
                     width: "100%",
                     margin: "2rem auto",

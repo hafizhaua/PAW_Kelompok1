@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
     useEffect(() => {
@@ -26,8 +27,18 @@ function App() {
         <BrowserRouter>
             <DefaultLayout>
                 <Routes>
-                    <Route path="/" element={<ReadRequestPage />} />
-                    <Route path="add" element={<CreateRequestPage />} />
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="search" element={<ReadRequestPage />} />
+                    <Route
+                        path="add"
+                        element={
+                            user ? (
+                                <CreateRequestPage />
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
                     <Route
                         path="edit/:id"
                         element={

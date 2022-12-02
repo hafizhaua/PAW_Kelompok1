@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
     Card,
     Row,
@@ -6,12 +6,15 @@ import {
     Button,
     Tooltip,
     Typography,
-    Badge,
     message,
     Popconfirm,
 } from "antd";
 import axios from "axios";
-import { EditOutlined, DeleteOutlined, CopyTwoTone } from "@ant-design/icons";
+import {
+    EditOutlined,
+    DeleteOutlined,
+    PushpinOutlined,
+} from "@ant-design/icons";
 import style from "./DonorReqCard.module.css";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -51,7 +54,7 @@ export default function DonorReqCard({
     return (
         <Card
             style={{
-                width: 295,
+                width: 283,
                 marginTop: 10,
                 borderRadius: 8,
                 padding: "24px 16px",
@@ -103,18 +106,38 @@ export default function DonorReqCard({
                         <h3 className={style.label}>Rumah Sakit</h3>
                     </Col>
                     <Col span={24}>
-                        <h1 className={style.value}>{hospital}</h1>
+                        <h1 className={style.value}>
+                            {hospital}{" "}
+                            <Tooltip title="Google Maps">
+                                <a
+                                    href={`https://www.google.com/maps/search/?api=1&query=${hospital}+${city}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <PushpinOutlined
+                                        style={{ color: "#1890ff" }}
+                                    />
+                                </a>
+                            </Tooltip>
+                        </h1>
                     </Col>
                     <Col span={24}>
                         <h3 className={style.label}>Narahubung</h3>
                     </Col>
                     <Col span={24}>
-                        <h1 className={(style.value, style.center)}>
+                        <h1 className={style.value}>
                             <Paragraph
                                 className={style.value}
-                                copyable={{ text: "081234567890" }}
+                                style={{ marginBottom: 0 }}
+                                copyable={{ text: cpPhoneNum }}
                             >
-                                {cpPhoneNum} ({cpName})
+                                {cpPhoneNum}
+                            </Paragraph>
+                            <Paragraph
+                                className={style.value}
+                                style={{ fontSize: "0.9rem" }}
+                            >
+                                {cpName}
                             </Paragraph>
                         </h1>
                     </Col>
