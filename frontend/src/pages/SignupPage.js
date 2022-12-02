@@ -1,15 +1,22 @@
 import React from "react";
-import { Card, Typography, Button, Alert, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Card, Typography, Button, Alert, Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 import { useSignup } from "../hooks/useSignup";
 
 export default function SignupPage() {
     const { Title } = Typography;
     const { signup, error, isLoading } = useSignup();
+    const navigate = useNavigate();
 
     const onFinish = async (values) => {
         await signup(values.username, values.email, values.password);
+        navigate("/login");
+        if (!error) {
+            message.success("Akun berhasil dibuat, silakan login.");
+        } else {
+            message.error("Akun gagal dibuat.");
+        }
     };
 
     const [form] = Form.useForm();
