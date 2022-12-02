@@ -1,15 +1,5 @@
 import React from "react";
-import {
-    Card,
-    Row,
-    Col,
-    Button,
-    Tooltip,
-    Typography,
-    message,
-    Popconfirm,
-} from "antd";
-import axios from "axios";
+import { Card, Row, Col, Button, Tooltip, Typography, Popconfirm } from "antd";
 import {
     EditOutlined,
     DeleteOutlined,

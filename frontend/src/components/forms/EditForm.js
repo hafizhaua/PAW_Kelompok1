@@ -51,6 +51,20 @@ const EditForm = () => {
     const [form] = Form.useForm();
     const { user } = useAuthContext();
 
+    const getUserById = async () => {
+        const response = await axios.get(
+            `https://bloodio-api.vercel.app/api/donorRequest/${id}`
+        );
+        await setRecipient(response.data.recipient);
+        await setBloodType(response.data.bloodType);
+        await setBagQuantity(response.data.bagQuantity);
+        await setDonorType(response.data.donorType);
+        await setCity(response.data.city);
+        await setHospital(response.data.hospital);
+        await setCpName(response.data.cpName);
+        await setcpPhoneNum(response.data.cpPhoneNum);
+    };
+
     useEffect(() => {
         getUserById();
     }, []);
@@ -91,20 +105,6 @@ const EditForm = () => {
                 description: "Perubahan data donor darah gagal disimpan",
             });
         }
-    };
-
-    const getUserById = async () => {
-        const response = await axios.get(
-            `https://bloodio-api.vercel.app/api/donorRequest/${id}`
-        );
-        await setRecipient(response.data.recipient);
-        await setBloodType(response.data.bloodType);
-        await setBagQuantity(response.data.bagQuantity);
-        await setDonorType(response.data.donorType);
-        await setCity(response.data.city);
-        await setHospital(response.data.hospital);
-        await setCpName(response.data.cpName);
-        await setcpPhoneNum(response.data.cpPhoneNum);
     };
 
     return (

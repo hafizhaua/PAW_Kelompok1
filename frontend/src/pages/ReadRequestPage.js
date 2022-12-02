@@ -66,7 +66,7 @@ const ReadRequestPage = () => {
     const filterRequest = async (values) => {
         let filterParams = "";
         for (const prop in values) {
-            if (values[prop] != undefined && values[prop] != "") {
+            if (values[prop] !== undefined && values[prop] !== "") {
                 filterParams += `&${prop}=` + encodeURIComponent(values[prop]);
             }
         }
@@ -169,7 +169,7 @@ const ReadRequestPage = () => {
                 {isLoading && (
                     <Skeleton active style={{ margin: "2rem 1rem" }} />
                 )}
-                {users.length == 0 && !isLoading && (
+                {users.length === 0 && !isLoading && (
                     <Empty
                         style={{ margin: "5rem" }}
                         description="Data tidak ditemukan"

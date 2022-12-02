@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Typography, Button, Alert, Form, Input, message } from "antd";
+import { Card, Typography, Button, Alert, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 import { useSignup } from "../hooks/useSignup";
@@ -10,21 +10,6 @@ export default function SignupPage() {
 
     const onFinish = async (values) => {
         await signup(values.username, values.email, values.password);
-    };
-
-    const onFinishFailed = (errorInfo) => {
-        message.error("Gagal mendaftar");
-    };
-
-    const formItemLayout = {
-        labelCol: {
-            xs: { span: 24 },
-            sm: { span: 8 },
-        },
-        wrapperCol: {
-            xs: { span: 24 },
-            sm: { span: 16 },
-        },
     };
 
     const [form] = Form.useForm();
