@@ -1,10 +1,10 @@
 const { Router } = require("express");
-const { authJwt, donorReqPerm } = require("../middlewares");
+const { authJwt } = require("../middlewares");
 const donorRequest = require("../controllers/donorRequest.controller");
 
 const router = Router();
 
-router.post("/", donorRequest.create);
+router.post("/", [authJwt.verifyToken], donorRequest.create);
 router.get("/", donorRequest.readAll);
 router.get("/:id", donorRequest.readOne);
 router.patch(
