@@ -4,16 +4,17 @@ const db = require("./src/app/models/index");
 const cors = require("cors");
 
 const app = express();
+
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(cors());
 
 const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: "https://bloodio.vercel.app/",
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 };
-
 app.use(cors(corsOptions));
 
 // Routes
