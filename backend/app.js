@@ -22,12 +22,12 @@ const authRoute = require("./src/app/routes/auth.route");
 const userRoute = require("./src/app/routes/user.route");
 
 app.get("/", (req, res) => {
-    res.send("Donor request index page.");
+    res.send("Bloodio API index page.");
 });
 
-app.use("/donorRequest", requestRoute);
-app.use("/auth", authRoute);
-app.use("/user", userRoute);
+app.use("/api/donorRequest", requestRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
 
 app.get("*", (req, res) => {
     res.send("This root doesn't exist");
