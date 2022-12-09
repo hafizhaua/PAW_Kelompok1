@@ -2,6 +2,8 @@
 
 Aplikasi ini merupakan aplikasi yang dibuat merupakan aplikasi berbasis web yang membantu masyarakat dalam mencari pendonor darah. Aplikasi ini berfungsi sebagai layanan penghubung antara orang yang membutuhkan pendonor darah dengan orang yang bersedia mendonorkan darahnya. Tujuan dari aplikasi ini yaitu menyediakan akses bagi masyarakat sehingga mendapatkan kemudahan dalam memperoleh kebutuhan darah yang dibutuhkan.
 
+Akses demonya melalui [https://bloodio.vercel.app/](https://bloodio.vercel.app/)
+
 ## Members of Kelompok 1
 
 - [Muhammad Raihan - 19/439817/TK/48547](https://www.github.com/mraihannn)
@@ -9,6 +11,19 @@ Aplikasi ini merupakan aplikasi yang dibuat merupakan aplikasi berbasis web yang
 - [Hafizha Ulinnuha Ahmad - 20/456365/TK/50495](https://www.github.com/hafizhaua)
 - [Auletta Khansa Pradiviasari - 20/456359/TK/50489](https://github.com/Auletta-Khansa)
 - [Maura Yufi Septania Putri - 20/463607/TK/51599](https://github.com/MauraYufi)
+
+## Demo
+
+| Side | URL     | Deployed Repository  |
+| :-------- | :------- | :------------------------- |
+| Backend | [https://bloodio-api.vercel.app/](https://bloodio-api.vercel.app/) | [PAW_Kelompok1](https://github.com/hafizhaua/PAW_Kelompok1/) (repository utama berisi dokumentasi pengerjaan BE & FE) |
+| Frontend | [https://bloodio.vercel.app/](https://bloodio.vercel.app/) | [Bloodio-FE](https://github.com/hafizhaua/Bloodio-FE) (repository yang dibuat hanya untuk keperluan deployment FE)|
+
+## Documentation
+
+- [Project Presentation Video - Backend & API](https://bit.ly/VideoPresentasiAPI_Kelompok1)
+- [Project Presentation Slide - Backend & API](https://bit.ly/SlidePresentasiAPI_Kelompok1)
+- [Project Presentation Slide - Frontend & Final Integration](https://bit.ly/SlidePresentasi_Kelompok1)
 
 ## Run Locally
 
@@ -24,7 +39,16 @@ Go to the project directory
   cd PAW_Kelompok1
 ```
 
+### Backend
+
+Go to the backend project directory
+
+```bash
+  cd backend
+```
+
 Create .env file and fill the variables needed
+
 ```
   PORT =
   DB_URL =
@@ -42,81 +66,22 @@ Start the server
   npm run dev
 ```
 
-## API Reference
+### Frontend
 
-#### --- Get all donor request items
+Go to the frontend project directory
 
-```http
-GET /donorRequest/?sort=&city=&bloodType=
+```bash
+  cd frontend
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `sort`    | `string` | date sorting, either `newest` or `oldest` |
-| `city`    | `string` | filtering based on city |
-| `bloodType`    | `string` | filtering based on blood type |
+Install dependencies
 
-#### --- Get a donor request item
-
-```http
-GET /donorRequest/:id
+```bash
+  npm install
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
+Run the app in development mode
 
-#### --- Post a donor request item
-
-```http
-POST /donorRequest/
+```bash
+  npm start
 ```
-
-RAW JSON Body
-```json
-{
-    "recipient": "Sandi Andi",
-    "bloodType": "A+",
-    "bagQuantity": 3,
-    "donorType": "WB",
-    "city": "Jakarta",
-    "hospital": "RSUP Fatmawati",
-    "cpName": "Syahrima Andini",
-    "cpPhoneNum": "+628123112233"
-}
-```
-
-#### --- Update a donor request item
-
-```http
-PATCH /donorRequest/:id
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to update |
-
-RAW JSON Body
-```json
-{
-    "bagQuantity": 2,
-    "city": "Yogyakarta"
-}
-```
-
-#### --- Delete a donor request item
-
-```http
-DELETE /donorRequest/:id
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to delete |
-
-## Documentation
-
-- [Project Presentation Video - Backend & API](https://bit.ly/VideoPresentasiAPI_Kelompok1)
-- [Project Presentation Slide - Backend & API](https://bit.ly/SlidePresentasiAPI_Kelompok1)
-
-
