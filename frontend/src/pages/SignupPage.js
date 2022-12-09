@@ -10,12 +10,14 @@ export default function SignupPage() {
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
-        await signup(values.username, values.email, values.password);
-        navigate("/login");
-        if (!error) {
-            message.success("Akun berhasil dibuat, silakan login.");
-        } else {
-            message.error("Akun gagal dibuat.");
+        const response = await signup(
+            values.username,
+            values.email,
+            values.password
+        );
+        if (response) {
+            message.success("Akun berhasil terdaftar. Silakan lakukan login.");
+            navigate("/login");
         }
     };
 
@@ -150,7 +152,7 @@ export default function SignupPage() {
                         >
                             Daftar
                         </Button>
-                        <p style={{ margin: "1rem 0 0 0" }}>
+                        <p style={{ margin: "1rem 0" }}>
                             Sudah memiliki akun? <Link to="/login">Masuk</Link>{" "}
                             sekarang!
                         </p>

@@ -10,13 +10,17 @@ export const useSignup = () => {
         setError(null);
 
         try {
-            await axios.post("https://bloodio-api.vercel.app/api/auth/signup", {
-                username,
-                email,
-                password,
-            });
+            const response = await axios.post(
+                "https://bloodio-api.vercel.app/api/auth/signup",
+                {
+                    username,
+                    email,
+                    password,
+                }
+            );
 
             setIsLoading(false);
+            return response;
         } catch (error) {
             setIsLoading(false);
             setError(error);
