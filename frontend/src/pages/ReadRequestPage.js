@@ -19,7 +19,7 @@ import DonorReqCard from "../components/card/DonorReqCard";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const ReadRequestPage = () => {
-    const [users, setUser] = useState([]);
+    const [requests, setRequests] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
     const [form] = Form.useForm();
@@ -27,29 +27,27 @@ const ReadRequestPage = () => {
     const { user } = useAuthContext();
 
     useEffect(() => {
-        getUsers();
+        getRequests();
     }, []);
 
-    const getUsers = async () => {
+    const getRequests = async () => {
         setIsLoading(true);
         const response = await axios.get(
             "https://bloodio-api.vercel.app/api/donorRequest/?sort=newest"
         );
-        setUser(response.data);
+        setRequests(response.data);
         setIsLoading(false);
     };
 
-    const deleteUser = async (id) => {
+    const deleteRequest = async (id) => {
         try {
-            await axios.delete(
-                `https://bloodio-api.vercel.app/api/donorRequest/${id}`,
-                {
-                    headers: {
-                        "x-access-token": `${user.accessToken}`,
-                    },
-                }
-            );
-            getUsers();
+            await axios.delete(`http://localhost:8000/api/donorRequest/${id}`, {
+                headers: {
+                    "x-access-token": `${user.accessToken}`,
+                },
+            });
+            setRequests([]);
+            getRequests();
             message.success("Data berhasil dihapus!");
         } catch (error) {
             message.error("Data gagal dihapus!");
@@ -72,14 +70,14 @@ const ReadRequestPage = () => {
         }
 
         try {
-            setUser([]);
+            setRequests([]);
             setIsSearching(true);
             setIsLoading(true);
             const response = await axios.get(
                 "https://bloodio-api.vercel.app/api/donorRequest/?sort=newest" +
                     filterParams
             );
-            setUser(response.data);
+            setRequests(response.data);
             setIsSearching(false);
             setIsLoading(false);
             message.success(`Penyaringan berhasil dilakukan!`);
@@ -169,20 +167,21 @@ const ReadRequestPage = () => {
                 {isLoading && (
                     <Skeleton active style={{ margin: "2rem 1rem" }} />
                 )}
-                {users.length === 0 && !isLoading && (
+                {requests.length === 0 && !isLoading && (
                     <Empty
                         style={{ margin: "5rem" }}
                         description="Data tidak ditemukan"
                         data-aos="fade"
                     />
                 )}
-                {users.map((user, index) => (
+                {requests.map((req, index) => (
                     <div
                         data-aos="fade-up"
                         data-aos-delay={(index % 3) * 250}
+                        key={req._id}
                         // data-aos-anchor-placement="center-bottom"
                     >
-                        <DonorReqCard {...user} onDelete={deleteUser} />
+                        <DonorReqCard {...req} onDelete={deleteRequest} />
                     </div>
                 ))}
             </div>

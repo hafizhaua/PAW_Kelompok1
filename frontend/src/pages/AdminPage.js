@@ -287,9 +287,12 @@ export default function AdminPage() {
                     filter: "drop-shadow(0px 4px 40px rgba(66, 95, 138, 0.1))",
                 }}
             >
-                {isLoadingData && <Skeleton active />}
-                {!isLoadingData && (
-                    <Table columns={columns} dataSource={data} />
+                {isLoadingData ? (
+                    <Skeleton active />
+                ) : (
+                    <div data-aos="fade">
+                        <Table columns={columns} dataSource={data} />
+                    </div>
                 )}
             </Card>
         </>

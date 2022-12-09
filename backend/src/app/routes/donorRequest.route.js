@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { authJwt } = require("../middlewares");
+const { authJwt, donorReqPerm } = require("../middlewares");
 const donorRequest = require("../controllers/donorRequest.controller");
 
 const router = Router();
@@ -9,12 +9,12 @@ router.get("/", donorRequest.readAll);
 router.get("/:id", donorRequest.readOne);
 router.patch(
     "/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, donorReqPerm.canUpdateDelete],
     donorRequest.update
 );
 router.delete(
     "/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, donorReqPerm.canUpdateDelete],
     donorRequest.delete
 );
 

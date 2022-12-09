@@ -44,10 +44,8 @@ function App() {
                         element={
                             !user ? (
                                 <Navigate to="/login" />
-                            ) : user?.roles.includes("ROLE_ADMIN") ? (
-                                <EditRequestPage />
                             ) : (
-                                <Navigate to="/" />
+                                <EditRequestPage />
                             )
                         }
                     />

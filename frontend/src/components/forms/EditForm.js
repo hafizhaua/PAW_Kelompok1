@@ -1,10 +1,7 @@
-import { Button, Cascader, Form, Input, InputNumber, notification } from "antd";
+import { Button, Cascader, Form, Input, InputNumber } from "antd";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { listGoldar, listKota, listTipeDonor } from "../../data";
-import { useAuthContext } from "../../hooks/useAuthContext";
-
 const formItemLayout = {
     labelCol: {
         xs: {
@@ -37,7 +34,7 @@ const tailFormItemLayout = {
     },
 };
 
-const EditForm = () => {
+const EditForm = ({ request, onFinish }) => {
     const [recipient, setRecipient] = useState("");
     const [bloodType, setBloodType] = useState("");
     const [bagQuantity, setBagQuantity] = useState("");
@@ -45,28 +42,20 @@ const EditForm = () => {
     const [city, setCity] = useState("");
     const [hospital, setHospital] = useState("");
     const [cpName, setCpName] = useState("");
-    const [cpPhoneNum, setcpPhoneNum] = useState("");
-    const navigate = useNavigate();
-    const { id } = useParams();
+    const [cpPhoneNum, setCpPhoneNum] = useState("");
     const [form] = Form.useForm();
-    const { user } = useAuthContext();
-
-    const getUserById = async () => {
-        const response = await axios.get(
-            `https://bloodio-api.vercel.app/api/donorRequest/${id}`
-        );
-        await setRecipient(response.data.recipient);
-        await setBloodType(response.data.bloodType);
-        await setBagQuantity(response.data.bagQuantity);
-        await setDonorType(response.data.donorType);
-        await setCity(response.data.city);
-        await setHospital(response.data.hospital);
-        await setCpName(response.data.cpName);
-        await setcpPhoneNum(response.data.cpPhoneNum);
-    };
 
     useEffect(() => {
-        getUserById();
+        if (request) {
+            setRecipient(request?.recipient);
+            setBloodType(request?.bloodType);
+            setBagQuantity(request?.bagQuantity);
+            setDonorType(request?.donorType);
+            setCity(request?.city);
+            setHospital(request?.hospital);
+            setCpName(request?.cpName);
+            setCpPhoneNum(request?.cpPhoneNum);
+        }
     }, []);
 
     const filter = (inputValue, path) =>
@@ -76,36 +65,36 @@ const EditForm = () => {
                 -1
         );
 
-    const onFinish = async (values) => {
-        values.cpPhoneNum = "+62" + values.cpPhoneNum;
-        values.city = values.city[0];
-        values.bloodType = values.bloodType[0];
-        values.donorType = values.donorType[0];
+    // const onFinish = async (values) => {
+    //     values.cpPhoneNum = "+62" + values.cpPhoneNum;
+    //     values.city = values.city[0];
+    //     values.bloodType = values.bloodType[0];
+    //     values.donorType = values.donorType[0];
 
-        try {
-            await axios.patch(
-                `https://bloodio-api.vercel.app/api/donorRequest/${id}`,
-                {
-                    ...values,
-                },
-                {
-                    headers: {
-                        "x-access-token": `${user.accessToken}`,
-                    },
-                }
-            );
-            notification["success"]({
-                message: "Berhasil!",
-                description: "Perubahan data donor darah berhasil disimpan",
-            });
-            navigate("/search");
-        } catch (error) {
-            notification["error"]({
-                message: "Gagal!",
-                description: "Perubahan data donor darah gagal disimpan",
-            });
-        }
-    };
+    //     try {
+    //         await axios.patch(
+    //             `https://bloodio-api.vercel.app/api/donorRequest/${id}`,
+    //             {
+    //                 ...values,
+    //             },
+    //             {
+    //                 headers: {
+    //                     "x-access-token": `${user.accessToken}`,
+    //                 },
+    //             }
+    //         );
+    //         notification["success"]({
+    //             message: "Berhasil!",
+    //             description: "Perubahan data donor darah berhasil disimpan",
+    //         });
+    //         navigate("/search");
+    //     } catch (error) {
+    //         notification["error"]({
+    //             message: "Gagal!",
+    //             description: "Perubahan data donor darah gagal disimpan",
+    //         });
+    //     }
+    // };
 
     return (
         <Form

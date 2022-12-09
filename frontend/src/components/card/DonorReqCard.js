@@ -20,6 +20,7 @@ export default function DonorReqCard({
     hospital = "RS Temanggung",
     cpName = "Kayla",
     cpPhoneNum = "081234567890",
+    userId,
     onDelete,
 }) {
     const { user } = useAuthContext();
@@ -127,7 +128,8 @@ export default function DonorReqCard({
                     </Col>
                 </Row>
 
-                {user?.roles.includes("ROLE_ADMIN") && (
+                {(user?.roles.includes("ROLE_ADMIN") ||
+                    user?.id === userId) && (
                     <div
                         className=""
                         style={{
