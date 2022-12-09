@@ -62,13 +62,13 @@ export default function LoginPage() {
                             {
                                 required: true,
                                 message:
-                                    "Harap isi email atau username terlebih dahulu!",
+                                    "Harap isi dengan username terlebih dahulu!",
                             },
                         ]}
                     >
                         <Input
                             prefix={<UserOutlined style={{ color: "grey" }} />}
-                            placeholder="Email atau username"
+                            placeholder="Username"
                             onChange={() => {
                                 form.setFieldsValue({
                                     username: form
