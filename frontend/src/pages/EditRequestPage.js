@@ -22,11 +22,9 @@ export default function EditRequestPage() {
             response.data.userId === user?.id ||
             user?.roles.includes("ROLE_ADMIN")
         ) {
-            console.log("Permitted");
             setRequest(response.data);
             setError(false);
         } else {
-            console.log("Not Permitted");
             setError(true);
         }
     };

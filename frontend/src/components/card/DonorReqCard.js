@@ -158,8 +158,6 @@ export default function DonorReqCard({
                             cancelText="Tidak"
                         >
                             <Button
-                                // danger
-                                // type=""
                                 icon={<DeleteOutlined />}
                                 style={{
                                     width: 100,

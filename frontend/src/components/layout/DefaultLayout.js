@@ -71,7 +71,6 @@ export default function DefaultLayout({ children }) {
                     defaultSelectedKeys={["2"]}
                     items={navItems}
                     style={{
-                        // width: "100%",
                         display: "flex",
                         justifyContent: "start",
                     }}

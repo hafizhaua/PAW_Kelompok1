@@ -41,11 +41,14 @@ const ReadRequestPage = () => {
 
     const deleteRequest = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/api/donorRequest/${id}`, {
-                headers: {
-                    "x-access-token": `${user.accessToken}`,
-                },
-            });
+            await axios.delete(
+                `https://bloodio-api.vercel.app/api/donorRequest/${id}`,
+                {
+                    headers: {
+                        "x-access-token": `${user.accessToken}`,
+                    },
+                }
+            );
             setRequests([]);
             getRequests();
             message.success("Data berhasil dihapus!");
@@ -160,7 +163,6 @@ const ReadRequestPage = () => {
                     display: "flex",
                     flexWrap: "wrap",
                     justifyContent: "center",
-                    // alignItems: "center",
                     gap: 7,
                 }}
             >
@@ -179,7 +181,6 @@ const ReadRequestPage = () => {
                         data-aos="fade-up"
                         data-aos-delay={(index % 3) * 250}
                         key={req._id}
-                        // data-aos-anchor-placement="center-bottom"
                     >
                         <DonorReqCard {...req} onDelete={deleteRequest} />
                     </div>

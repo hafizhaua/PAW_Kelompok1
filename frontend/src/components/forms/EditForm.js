@@ -65,37 +65,6 @@ const EditForm = ({ request, onFinish }) => {
                 -1
         );
 
-    // const onFinish = async (values) => {
-    //     values.cpPhoneNum = "+62" + values.cpPhoneNum;
-    //     values.city = values.city[0];
-    //     values.bloodType = values.bloodType[0];
-    //     values.donorType = values.donorType[0];
-
-    //     try {
-    //         await axios.patch(
-    //             `https://bloodio-api.vercel.app/api/donorRequest/${id}`,
-    //             {
-    //                 ...values,
-    //             },
-    //             {
-    //                 headers: {
-    //                     "x-access-token": `${user.accessToken}`,
-    //                 },
-    //             }
-    //         );
-    //         notification["success"]({
-    //             message: "Berhasil!",
-    //             description: "Perubahan data donor darah berhasil disimpan",
-    //         });
-    //         navigate("/search");
-    //     } catch (error) {
-    //         notification["error"]({
-    //             message: "Gagal!",
-    //             description: "Perubahan data donor darah gagal disimpan",
-    //         });
-    //     }
-    // };
-
     return (
         <Form
             {...formItemLayout}

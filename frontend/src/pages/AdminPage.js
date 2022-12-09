@@ -13,6 +13,7 @@ import {
     Checkbox,
     notification,
     Skeleton,
+    Result,
 } from "antd";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -26,6 +27,7 @@ export default function AdminPage() {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(false);
+    const [error, setError] = useState(false);
     const { user } = useAuthContext();
     const CheckboxGroup = Checkbox.Group;
 
@@ -155,18 +157,22 @@ export default function AdminPage() {
 
     const getAccounts = async (req, res) => {
         setIsLoadingData(true);
-        const response = await axios.get(
-            "https://bloodio-api.vercel.app/api/user/",
-            {
-                headers: {
-                    "x-access-token": `${user.accessToken}`,
-                },
-            }
-        );
+        try {
+            const response = await axios.get(
+                "https://bloodio-api.vercel.app/api/user/",
+                {
+                    headers: {
+                        "x-access-token": `${user.accessToken}`,
+                    },
+                }
+            );
 
-        setIsLoadingData(false);
-        // let filteredAcc = response.data.filter((rsp) => rsp.id !== user.id);
-        setAccounts(response.data);
+            setIsLoadingData(false);
+            setAccounts(response.data);
+        } catch (err) {
+            setIsLoadingData(false);
+            setError(true);
+        }
     };
 
     useEffect(() => {
@@ -224,77 +230,88 @@ export default function AdminPage() {
 
     return (
         <>
-            <Modal
-                title={`Pengubahan Roles Akun ${focusedAcc.username}`}
-                open={isModalOpen}
-                onOk={handleOkModal}
-                onCancel={handleCancelModal}
-                footer={[
-                    <Button
-                        key="submit"
-                        type="primary"
-                        onClick={() => onSubmitRoleChange()}
-                        loading={isLoading}
+            {error ? (
+                <Result
+                    status="error"
+                    title="401"
+                    subTitle="Maaf, anda tidak memiliki akses untuk halaman ini."
+                />
+            ) : (
+                <>
+                    <Modal
+                        title={`Pengubahan Roles Akun ${focusedAcc.username}`}
+                        open={isModalOpen}
+                        onOk={handleOkModal}
+                        onCancel={handleCancelModal}
+                        footer={[
+                            <Button
+                                key="submit"
+                                type="primary"
+                                onClick={() => onSubmitRoleChange()}
+                                loading={isLoading}
+                            >
+                                Simpan
+                            </Button>,
+                            <Button onClick={() => setIsModalOpen(false)}>
+                                Batal
+                            </Button>,
+                        ]}
                     >
-                        Simpan
-                    </Button>,
-                    <Button onClick={() => setIsModalOpen(false)}>
-                        Batal
-                    </Button>,
-                ]}
-            >
-                <Form name="edit_roles">
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
-                        <CheckboxGroup
-                            options={options}
-                            value={checkedList}
-                            onChange={onCheckboxChange}
-                        />
-                    </Form.Item>
-                </Form>
-            </Modal>
-            <Title
-                data-aos="zoom-out"
-                level={3}
-                style={{ textAlign: "center", margin: "1rem" }}
-            >
-                Pengelolaan Akun Sistem
-            </Title>
-            <Title
-                data-aos="zoom-in"
-                level={5}
-                style={{
-                    textAlign: "center",
-                    margin: "1rem",
-                }}
-            >
-                🔐 MODERATOR ONLY 🔐
-            </Title>
+                        <Form name="edit_roles">
+                            <Form.Item
+                                name="remember"
+                                valuePropName="checked"
+                                noStyle
+                            >
+                                <CheckboxGroup
+                                    options={options}
+                                    value={checkedList}
+                                    onChange={onCheckboxChange}
+                                />
+                            </Form.Item>
+                        </Form>
+                    </Modal>
+                    <Title
+                        data-aos="zoom-out"
+                        level={3}
+                        style={{ textAlign: "center", margin: "1rem" }}
+                    >
+                        Pengelolaan Akun Sistem
+                    </Title>
+                    <Title
+                        data-aos="zoom-in"
+                        level={5}
+                        style={{
+                            textAlign: "center",
+                            margin: "1rem",
+                        }}
+                    >
+                        🔐 MODERATOR ONLY 🔐
+                    </Title>
 
-            <Card
-                data-aos="fade"
-                data-aos-delay={200}
-                title="Tabel List Akun Terdaftar"
-                bordered={false}
-                // pagination={{
-                //     position: ["none", "none"],
-                // }}
-                style={{
-                    width: "100%",
-                    margin: "2rem auto",
-                    borderRadius: 8,
-                    padding: "24px 16px",
-                    filter: "drop-shadow(0px 4px 40px rgba(66, 95, 138, 0.1))",
-                }}
-            >
-                {isLoadingData ? (
-                    <Skeleton active />
-                ) : (
-                    <div data-aos="fade">
-                        <Table columns={columns} dataSource={data} />
-                    </div>
-                )}
-            </Card>
+                    <Card
+                        data-aos="fade"
+                        data-aos-delay={200}
+                        title="Tabel List Akun Terdaftar"
+                        bordered={false}
+                        style={{
+                            width: "100%",
+                            margin: "2rem auto",
+                            borderRadius: 8,
+                            padding: "24px 16px",
+                            filter: "drop-shadow(0px 4px 40px rgba(66, 95, 138, 0.1))",
+                        }}
+                    >
+                        {isLoadingData ? (
+                            <Skeleton active />
+                        ) : (
+                            <div data-aos="fade">
+                                <Table columns={columns} dataSource={data} />
+                            </div>
+                        )}
+                    </Card>
+                </>
+            )}
         </>
     );
 }

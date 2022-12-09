@@ -45,7 +45,6 @@ export default function SignupPage() {
                 }}
             >
                 <Form
-                    // {...formItemLayout}
                     form={form}
                     name="register"
                     onFinish={onFinish}
@@ -77,7 +76,6 @@ export default function SignupPage() {
 
                     <Form.Item
                         name="email"
-                        // label="E-mail"
                         rules={[
                             {
                                 type: "email",
@@ -97,7 +95,6 @@ export default function SignupPage() {
 
                     <Form.Item
                         name="password"
-                        // label="Password"
                         rules={[
                             {
                                 required: true,
@@ -115,7 +112,6 @@ export default function SignupPage() {
 
                     <Form.Item
                         name="confirm"
-                        // label="Confirm Password"
                         dependencies={["password"]}
                         hasFeedback
                         rules={[
