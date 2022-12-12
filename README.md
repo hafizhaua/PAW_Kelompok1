@@ -25,6 +25,34 @@ Akses demonya melalui [https://bloodio.vercel.app/](https://bloodio.vercel.app/)
 - [Project Presentation Slide - Backend & API](https://bit.ly/SlidePresentasiAPI_Kelompok1)
 - [Project Presentation Slide - Frontend & Final Integration](https://bit.ly/SlidePresentasi_Kelompok1)
 
+## Role-based Auth Demo
+
+<img src="https://user-images.githubusercontent.com/72615421/206965970-792d9fd2-bb86-47d1-a3c5-c29718367773.png" width="500" />
+
+Pengunjung pada laman dapat dibedakan berdasarkan *role*-nya menjadi:
+
+### Public
+- Dapat [melihat](https://bloodio.vercel.app/search) semua permintaan donor darah yang terdaftar
+
+### User
+- Dapat membuat permintaan donor darah
+- Dapat memerbarui dan menghapus permintaan donor khusus yang dibuat oleh akun itu sendiri
+- Demo dapat dilakukan dengan [mendaftar](https://bloodio.vercel.app/signup) dan [login](https://bloodio.vercel.app/login) secara langsung pada web
+
+### Admin
+- Dapat memerbarui permintaan donor darah yang ada pada sistem
+- Dapat menghapus permintaan donor darah yang ada pada sistem
+- Memiliki *priviledge* *role* user
+- Demo dapat dilakukan dengan [login](https://bloodio.vercel.app/login) dengan username `admin` dan password `Admin123`
+
+### Moderator**
+- Dapat melihat semua akun yang terdaftar pada sistem
+- Dapat memberikan *role/priviledge* pada akun kecuali akunnya sendiri
+- Dapat menghapus akun yang terdaftar pada sistem kecuali akunnya sendiri
+- Memiliki *priviledge* *role* user
+- Umumnya/idealnya juga memiliki *role* admin (tetapi bisa juga tidak)
+- Demo dapat dilakukan dengan [login](https://bloodio.vercel.app/login) dengan username `moderator` dan password `Moderator123`
+
 ## Run Locally
 
 Clone the project
